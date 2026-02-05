@@ -68,6 +68,14 @@ namespace RepairShopIS.Views
             if (CompleteOrderCombo.SelectedItem is Order selectedOrder)
             {
                 var issueDate = IssueDatePicker.SelectedDate ?? DateTime.Now;
+
+                // Добавленная проверка на хронологию дат
+                if (issueDate < selectedOrder.ReceiptDate)
+                {
+                    MessageBox.Show("Ошибка: Дата выдачи не может быть раньше даты приема заказа!");
+                    return;
+                }
+
                 var isFaulty = IsFaultyCheck.IsChecked ?? false;
                 selectedOrder.Complete(issueDate, isFaulty);
                 RefreshOrdersGrid();
