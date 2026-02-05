@@ -1,0 +1,28 @@
+﻿<Window x:Class="RepairShopIS.Views.TelevisionsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Управление телевизорами" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="10">
+            <Label Content="Марка:"/>
+            <TextBox x:Name="BrandText"/>
+            <Label Content="Страна-производитель:"/>
+            <TextBox x:Name="CountryText"/>
+            <Label Content="Фирма-изготовитель:"/>
+            <TextBox x:Name="ManufacturerText"/>
+            <Label Content="Ссылка на фото:"/>
+            <TextBox x:Name="PhotoLinkText"/>
+            <Label Content="Срок эксплуатации (лет):"/>
+            <TextBox x:Name="UsageYearsText"/>
+            <Button Content="Добавить телевизор" Click="AddTelevision_Click" Margin="0,10,0,0"/>
+        </StackPanel>
+
+        <DataGrid x:Name="TelevisionsGrid" Grid.Row="1" AutoGenerateColumns="True" IsReadOnly="True" Margin="10"/>
+        <Button Content="Удалить выбранного" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Grid.Row="1" Click="DeleteTelevision_Click"/>
+    </Grid>
+</Window>

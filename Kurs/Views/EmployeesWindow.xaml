@@ -1,0 +1,30 @@
+﻿<Window x:Class="RepairShopIS.Views.EmployeesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Управление сотрудниками" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="10">
+            <Label Content="ФИО:"/>
+            <TextBox x:Name="FullNameText"/>
+            <Label Content="Возраст:"/>
+            <TextBox x:Name="AgeText"/>
+            <Label Content="Адрес:"/>
+            <TextBox x:Name="AddressText"/>
+            <Label Content="Телефон:"/>
+            <TextBox x:Name="PhoneText"/>
+            <Label Content="Специальность:"/>
+            <TextBox x:Name="SpecialtyText"/>
+            <Label Content="Стаж (лет):"/>
+            <TextBox x:Name="ExperienceText"/>
+            <Button Content="Добавить сотрудника" Click="AddEmployee_Click" Margin="0,10,0,0"/>
+        </StackPanel>
+
+        <DataGrid x:Name="EmployeesGrid" Grid.Row="1" AutoGenerateColumns="True" IsReadOnly="True" Margin="10"/>
+        <Button Content="Удалить выбранного" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Grid.Row="1" Click="DeleteEmployee_Click"/>
+    </Grid>
+</Window>

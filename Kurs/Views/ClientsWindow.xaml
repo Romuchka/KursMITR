@@ -1,0 +1,26 @@
+﻿<Window x:Class="RepairShopIS.Views.ClientsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Управление клиентами" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="10">
+            <Label Content="ФИО:"/>
+            <TextBox x:Name="FullNameText"/>
+            <Label Content="Адрес:"/>
+            <TextBox x:Name="AddressText"/>
+            <Label Content="Телефон:"/>
+            <TextBox x:Name="PhoneText"/>
+            <Label Content="Номер дисконтной карты:"/>
+            <TextBox x:Name="DiscountCardText"/>
+            <Button Content="Добавить клиента" Click="AddClient_Click" Margin="0,10,0,0"/>
+        </StackPanel>
+
+        <DataGrid x:Name="ClientsGrid" Grid.Row="1" AutoGenerateColumns="True" IsReadOnly="True" Margin="10"/>
+        <Button Content="Удалить выбранного" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Grid.Row="1" Click="DeleteClient_Click"/>
+    </Grid>
+</Window>
