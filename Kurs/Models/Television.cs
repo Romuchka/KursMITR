@@ -1,6 +1,8 @@
-﻿namespace RepairShopIS.Models
+﻿using RepairShopIS.Interfaces;
+
+namespace RepairShopIS.Models
 {
-    public class Television
+    public class Television : ITelevision
     {
         public string Brand { get; set; }
         public string Country { get; set; }

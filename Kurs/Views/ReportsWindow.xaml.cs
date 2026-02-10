@@ -1,4 +1,4 @@
-﻿using RepairShopIS.Services;
+﻿using RepairShopIS.Interfaces;
 using System;
 using System.Linq;
 using System.Windows;
@@ -8,9 +8,9 @@ namespace RepairShopIS.Views
 {
     public partial class ReportsWindow : Window
     {
-        private readonly RepairShopSystem _system;
+        private readonly IRepairShopSystem _system;
 
-        public ReportsWindow(RepairShopSystem system)
+        public ReportsWindow(IRepairShopSystem system)
         {
             InitializeComponent();
             _system = system;

@@ -1,6 +1,8 @@
-﻿namespace RepairShopIS.Models
+﻿using RepairShopIS.Interfaces;
+
+namespace RepairShopIS.Models
 {
-    public class Employee
+    public class Employee : IEmployee
     {
         public string FullName { get; set; }
         public int Age { get; set; }

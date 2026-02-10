@@ -1,5 +1,5 @@
-﻿using RepairShopIS.Models;
-using RepairShopIS.Services;
+﻿using RepairShopIS.Interfaces;
+using RepairShopIS.Models;
 using System.Windows;
 using System.Windows.Controls;
 using System.Text.RegularExpressions;
@@ -8,9 +8,9 @@ namespace RepairShopIS.Views
 {
     public partial class TelevisionsWindow : Window
     {
-        private readonly RepairShopSystem _system;
+        private readonly IRepairShopSystem _system;
 
-        public TelevisionsWindow(RepairShopSystem system)
+        public TelevisionsWindow(IRepairShopSystem system)
         {
             InitializeComponent();
             _system = system;
@@ -43,7 +43,6 @@ namespace RepairShopIS.Views
                 return;
             }
 
-            // Проверка страны: только буквы и пробелы (кириллица и латиница)
             if (!Regex.IsMatch(country, @"^[a-zA-Zа-яА-Я\s]+$"))
             {
                 MessageBox.Show("Страна должна содержать только буквы и пробелы");
@@ -58,7 +57,7 @@ namespace RepairShopIS.Views
 
         private void DeleteTelevision_Click(object sender, RoutedEventArgs e)
         {
-            if (TelevisionsGrid.SelectedItem is Television selectedTv)
+            if (TelevisionsGrid.SelectedItem is ITelevision selectedTv)
             {
                 _system.RemoveTelevision(selectedTv);
                 RefreshTelevisionsGrid();

@@ -1,4 +1,5 @@
-﻿using RepairShopIS.Models;
+﻿using RepairShopIS.Interfaces;
+using RepairShopIS.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,12 +9,12 @@ using Newtonsoft.Json;
 
 namespace RepairShopIS.Services
 {
-    public class RepairShopSystem
+    public class RepairShopSystem : IRepairShopSystem
     {
-        private readonly ObservableCollection<Client> _clients = new ObservableCollection<Client>();
-        private readonly ObservableCollection<Employee> _employees = new ObservableCollection<Employee>();
-        private readonly ObservableCollection<Television> _televisions = new ObservableCollection<Television>();
-        private readonly ObservableCollection<Order> _orders = new ObservableCollection<Order>();
+        private readonly ObservableCollection<IClient> _clients = new ObservableCollection<IClient>();
+        private readonly ObservableCollection<IEmployee> _employees = new ObservableCollection<IEmployee>();
+        private readonly ObservableCollection<ITelevision> _televisions = new ObservableCollection<ITelevision>();
+        private readonly ObservableCollection<IOrder> _orders = new ObservableCollection<IOrder>();
 
         private const string DataFilePath = "data.json";
 
@@ -22,77 +23,77 @@ namespace RepairShopIS.Services
             Load();
         }
 
-        public ReadOnlyObservableCollection<Client> Clients
+        public ReadOnlyObservableCollection<IClient> Clients
         {
-            get { return new ReadOnlyObservableCollection<Client>(_clients); }
+            get { return new ReadOnlyObservableCollection<IClient>(_clients); }
         }
 
-        public ReadOnlyObservableCollection<Employee> Employees
+        public ReadOnlyObservableCollection<IEmployee> Employees
         {
-            get { return new ReadOnlyObservableCollection<Employee>(_employees); }
+            get { return new ReadOnlyObservableCollection<IEmployee>(_employees); }
         }
 
-        public ReadOnlyObservableCollection<Television> Televisions
+        public ReadOnlyObservableCollection<ITelevision> Televisions
         {
-            get { return new ReadOnlyObservableCollection<Television>(_televisions); }
+            get { return new ReadOnlyObservableCollection<ITelevision>(_televisions); }
         }
 
-        public ReadOnlyObservableCollection<Order> Orders
+        public ReadOnlyObservableCollection<IOrder> Orders
         {
-            get { return new ReadOnlyObservableCollection<Order>(_orders); }
+            get { return new ReadOnlyObservableCollection<IOrder>(_orders); }
         }
 
-        public void AddClient(Client client)
+        public void AddClient(IClient client)
         {
             _clients.Add(client);
         }
 
-        public void RemoveClient(Client client)
+        public void RemoveClient(IClient client)
         {
             _clients.Remove(client);
         }
 
-        public void AddEmployee(Employee employee)
+        public void AddEmployee(IEmployee employee)
         {
             _employees.Add(employee);
         }
 
-        public void RemoveEmployee(Employee employee)
+        public void RemoveEmployee(IEmployee employee)
         {
             _employees.Remove(employee);
         }
 
-        public void AddTelevision(Television tv)
+        public void AddTelevision(ITelevision tv)
         {
             _televisions.Add(tv);
         }
 
-        public void RemoveTelevision(Television tv)
+        public void RemoveTelevision(ITelevision tv)
         {
             _televisions.Remove(tv);
         }
 
-        public void AddOrder(Order order)
+        public void AddOrder(IOrder order)
         {
             _orders.Add(order);
         }
 
-        public void RemoveOrder(Order order)
+        public void RemoveOrder(IOrder order)
         {
             _orders.Remove(order);
         }
 
-        public IEnumerable<Order> GetOrdersInPeriod(DateTime from, DateTime to)
+        public IEnumerable<IOrder> GetOrdersInPeriod(DateTime from, DateTime to)
         {
             return _orders.Where(o => o.ReceiptDate >= from && o.ReceiptDate <= to);
         }
 
-        public IEnumerable<Client> GetRegularClients()
+        public IEnumerable<IClient> GetRegularClients()
         {
             return _clients.Where(c => c.IsRegular);
         }
 
-        public IEnumerable<Tuple<Employee, int, int>> GetEmployeeStatistics(DateTime from, DateTime to)
+        public IEnumerable<Tuple<IEmployee, int, int>> GetEmployeeStatistics(DateTime from, DateTime to)
         {
             return _employees.Select(emp =>
             {
@@ -100,13 +101,13 @@ namespace RepairShopIS.Services
                     .Where(o => o.Executor == emp && o.IsCompleted && o.IssueDate >= from && o.IssueDate <= to)
                     .ToList();
 
-                return new Tuple<Employee, int, int>(emp, relevant.Count, relevant.Count(o => o.IsFaulty));
+                return new Tuple<IEmployee, int, int>(emp, relevant.Count, relevant.Count(o => o.IsFaulty));
             });
         }
 
         private class AppData
         {
-            public List<Client> Clients { get; set; }
+            public List<Client> Clients { get; set; }  // Concrete для сериализации
             public List<Employee> Employees { get; set; }
             public List<Television> Televisions { get; set; }
             public List<Order> Orders { get; set; }
@@ -116,10 +117,10 @@ namespace RepairShopIS.Services
         {
             var data = new AppData
             {
-                Clients = _clients.ToList(),
-                Employees = _employees.ToList(),
-                Televisions = _televisions.ToList(),
-                Orders = _orders.ToList()
+                Clients = _clients.Cast<Client>().ToList(),
+                Employees = _employees.Cast<Employee>().ToList(),
+                Televisions = _televisions.Cast<Television>().ToList(),
+                Orders = _orders.Cast<Order>().ToList()
             };
             string json = JsonConvert.SerializeObject(data, Formatting.Indented);
             File.WriteAllText(DataFilePath, json);

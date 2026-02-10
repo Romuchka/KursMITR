@@ -1,13 +1,14 @@
-﻿using RepairShopIS.Services;
+﻿using RepairShopIS.Interfaces;
+using RepairShopIS.Services;
 using RepairShopIS.Views;
-using System.Windows;
 using System.ComponentModel;
+using System.Windows;
 
 namespace RepairShopIS
 {
     public partial class MainWindow : Window
     {
-        private readonly RepairShopSystem _system = new RepairShopSystem();
+        private readonly IRepairShopSystem _system = new RepairShopSystem();
 
         public MainWindow()
         {

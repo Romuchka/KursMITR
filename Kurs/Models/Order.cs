@@ -1,17 +1,17 @@
-﻿using System;
+﻿using RepairShopIS.Interfaces;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace RepairShopIS.Models
 {
-    public class Order
+    public class Order : IOrder
     {
-        public Client Client { get; set; }
-        public Employee Executor { get; set; }
-        public Television Television { get; set; }
+        public IClient Client { get; set; }
+        public IEmployee Executor { get; set; }
+        public ITelevision Television { get; set; }
         public DateTime ReceiptDate { get; set; }
         public DateTime? IssueDate { get; set; }
-        public List<string> FixedIssues { get; set; } // Изменено на List<string> для сериализации (было IReadOnlyList)
+        public List<string> FixedIssues { get; set; }
         public decimal Cost { get; set; }
         public int WarrantyMonths { get; set; }
         public bool IsFaulty { get; set; }
@@ -21,7 +21,7 @@ namespace RepairShopIS.Models
             get { return IssueDate.HasValue; }
         }
 
-        public Order(Client client, Employee executor, Television television,
+        public Order(IClient client, IEmployee executor, ITelevision television,
                      DateTime receiptDate, IEnumerable<string> fixedIssues,
                      decimal cost, int warrantyMonths)
         {
@@ -29,7 +29,7 @@ namespace RepairShopIS.Models
             Executor = executor;
             Television = television;
             ReceiptDate = receiptDate;
-            FixedIssues = new List<string>(fixedIssues ?? new string[0]); // Изменено на List
+            FixedIssues = new List<string>(fixedIssues ?? new string[0]);
             Cost = cost;
             WarrantyMonths = warrantyMonths;
         }
@@ -41,8 +41,8 @@ namespace RepairShopIS.Models
             IssueDate = issueDate;
             IsFaulty = isFaulty;
 
-            Executor.RepairedTVs++;
-            if (isFaulty) Executor.FaultyRepairs++;
+            ((Employee)Executor).RepairedTVs++;  // Кастинг, так как internal set
+            if (isFaulty) ((Employee)Executor).FaultyRepairs++;
         }
 
         public override string ToString()

@@ -1,5 +1,5 @@
-﻿using RepairShopIS.Models;
-using RepairShopIS.Services;
+﻿using RepairShopIS.Interfaces;
+using RepairShopIS.Models;
 using System.Windows;
 using System.Windows.Controls;
 using System.Text.RegularExpressions;
@@ -8,9 +8,9 @@ namespace RepairShopIS.Views
 {
     public partial class ClientsWindow : Window
     {
-        private readonly RepairShopSystem _system;
+        private readonly IRepairShopSystem _system;
 
-        public ClientsWindow(RepairShopSystem system)
+        public ClientsWindow(IRepairShopSystem system)
         {
             InitializeComponent();
             _system = system;
@@ -36,14 +36,12 @@ namespace RepairShopIS.Views
                 return;
             }
 
-            // Проверка ФИО: только буквы и пробелы (кириллица и латиница)
             if (!Regex.IsMatch(fullName, @"^[a-zA-Zа-яА-Я\s]+$"))
             {
                 MessageBox.Show("ФИО должно содержать только буквы и пробелы");
                 return;
             }
 
-            // Проверка телефона: только цифры, +, -, (, ), пробелы
             if (!Regex.IsMatch(phone, @"^[\d+()\-\s]+$"))
             {
                 MessageBox.Show("Телефон должен содержать только цифры, +, -, (, ), пробелы");
@@ -58,7 +56,7 @@ namespace RepairShopIS.Views
 
         private void DeleteClient_Click(object sender, RoutedEventArgs e)
         {
-            if (ClientsGrid.SelectedItem is Client selectedClient)
+            if (ClientsGrid.SelectedItem is IClient selectedClient)
             {
                 _system.RemoveClient(selectedClient);
                 RefreshClientsGrid();

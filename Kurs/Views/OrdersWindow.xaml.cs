@@ -1,5 +1,5 @@
-﻿using RepairShopIS.Models;
-using RepairShopIS.Services;
+﻿using RepairShopIS.Interfaces;
+using RepairShopIS.Models;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -9,9 +9,9 @@ namespace RepairShopIS.Views
 {
     public partial class OrdersWindow : Window
     {
-        private readonly RepairShopSystem _system;
+        private readonly IRepairShopSystem _system;
 
-        public OrdersWindow(RepairShopSystem system)
+        public OrdersWindow(IRepairShopSystem system)
         {
             InitializeComponent();
             _system = system;
@@ -38,9 +38,9 @@ namespace RepairShopIS.Views
 
         private void AddOrder_Click(object sender, RoutedEventArgs e)
         {
-            if (!(ClientCombo.SelectedItem is Client client) ||
-                !(EmployeeCombo.SelectedItem is Employee employee) ||
-                !(TelevisionCombo.SelectedItem is Television tv))
+            if (!(ClientCombo.SelectedItem is IClient client) ||
+                !(EmployeeCombo.SelectedItem is IEmployee employee) ||
+                !(TelevisionCombo.SelectedItem is ITelevision tv))
             {
                 MessageBox.Show("Выберите клиента, сотрудника и телевизор");
                 return;
@@ -65,11 +65,10 @@ namespace RepairShopIS.Views
 
         private void CompleteOrder_Click(object sender, RoutedEventArgs e)
         {
-            if (CompleteOrderCombo.SelectedItem is Order selectedOrder)
+            if (CompleteOrderCombo.SelectedItem is IOrder selectedOrder)
             {
                 var issueDate = IssueDatePicker.SelectedDate ?? DateTime.Now;
 
-                // Добавленная проверка на хронологию дат
                 if (issueDate < selectedOrder.ReceiptDate)
                 {
                     MessageBox.Show("Ошибка: Дата выдачи не может быть раньше даты приема заказа!");
@@ -89,7 +88,7 @@ namespace RepairShopIS.Views
 
         private void DeleteOrder_Click(object sender, RoutedEventArgs e)
         {
-            if (DeleteOrderCombo.SelectedItem is Order selectedOrder)
+            if (DeleteOrderCombo.SelectedItem is IOrder selectedOrder)
             {
                 _system.RemoveOrder(selectedOrder);
                 RefreshOrdersGrid();

@@ -1,6 +1,8 @@
-﻿namespace RepairShopIS.Models
+﻿using RepairShopIS.Interfaces;
+
+namespace RepairShopIS.Models
 {
-    public class Client
+    public class Client : IClient
     {
         public string FullName { get; set; }
         public string Address { get; set; }

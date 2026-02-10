@@ -1,5 +1,5 @@
-﻿using RepairShopIS.Models;
-using RepairShopIS.Services;
+﻿using RepairShopIS.Interfaces;
+using RepairShopIS.Models;
 using System.Windows;
 using System.Windows.Controls;
 using System.Text.RegularExpressions;
@@ -8,9 +8,9 @@ namespace RepairShopIS.Views
 {
     public partial class EmployeesWindow : Window
     {
-        private readonly RepairShopSystem _system;
+        private readonly IRepairShopSystem _system;
 
-        public EmployeesWindow(RepairShopSystem system)
+        public EmployeesWindow(IRepairShopSystem system)
         {
             InitializeComponent();
             _system = system;
@@ -44,21 +44,18 @@ namespace RepairShopIS.Views
                 return;
             }
 
-            // Проверка ФИО: только буквы и пробелы (кириллица и латиница)
             if (!Regex.IsMatch(fullName, @"^[a-zA-Zа-яА-Я\s]+$"))
             {
                 MessageBox.Show("ФИО должно содержать только буквы и пробелы");
                 return;
             }
 
-            // Проверка специальности: только буквы и пробелы (кириллица и латиница)
             if (!Regex.IsMatch(specialty, @"^[a-zA-Zа-яА-Я\s]+$"))
             {
                 MessageBox.Show("Специальность должна содержать только буквы и пробелы");
                 return;
             }
 
-            // Проверка телефона: только цифры, +, -, (, ), пробелы
             if (!Regex.IsMatch(phone, @"^[\d+()\-\s]+$"))
             {
                 MessageBox.Show("Телефон должен содержать только цифры, +, -, (, ), пробелы");
@@ -73,7 +70,7 @@ namespace RepairShopIS.Views
 
         private void DeleteEmployee_Click(object sender, RoutedEventArgs e)
         {
-            if (EmployeesGrid.SelectedItem is Employee selectedEmployee)
+            if (EmployeesGrid.SelectedItem is IEmployee selectedEmployee)
             {
                 _system.RemoveEmployee(selectedEmployee);
                 RefreshEmployeesGrid();
