@@ -10,7 +10,7 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button Content="Клиенты" Width="220" Height="40" Margin="10" Click="ManageClients_Click"/>
             <Button Content="Сотрудники" Width="220" Height="40" Margin="10" Click="ManageEmployees_Click"/>
-            <Button Content="Телевизоры" Width="220" Height="40" Margin="10" Click="ManageTelevisions_Click"/>
+            <Button Content="Техника" Width="220" Height="40" Margin="10" Click="ManageTelevisions_Click"/>
             <Button Content="Заказы / ремонты" Width="220" Height="40" Margin="10" Click="ManageOrders_Click"/>
             <Button Content="Отчёты" Width="220" Height="40" Margin="10" Click="ViewReports_Click"/>
         </StackPanel>
