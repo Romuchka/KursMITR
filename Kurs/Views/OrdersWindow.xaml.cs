@@ -42,7 +42,7 @@ namespace RepairShopIS.Views
                 !(EmployeeCombo.SelectedItem is IEmployee employee) ||
                 !(TelevisionCombo.SelectedItem is ITelevision tv))
             {
-                MessageBox.Show("Выберите клиента, сотрудника и телевизор");
+                MessageBox.Show("Выберите клиента, сотрудника и технику");
                 return;
             }
 

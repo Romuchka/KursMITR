@@ -11,16 +11,14 @@
         <StackPanel Grid.Row="0" Orientation="Vertical" Margin="10">
             <Label Content="ФИО:"/>
             <TextBox x:Name="FullNameText"/>
-            <Label Content="Возраст:"/>
-            <TextBox x:Name="AgeText"/>
             <Label Content="Адрес:"/>
             <TextBox x:Name="AddressText"/>
             <Label Content="Телефон:"/>
             <TextBox x:Name="PhoneText"/>
             <Label Content="Специальность:"/>
             <TextBox x:Name="SpecialtyText"/>
-            <Label Content="Стаж (лет):"/>
-            <TextBox x:Name="ExperienceText"/>
+            <Label Content="Дата трудоустройства:"/>
+            <DatePicker x:Name="HireDatePicker"/>
             <Button Content="Добавить сотрудника" Click="AddEmployee_Click" Margin="0,10,0,0"/>
         </StackPanel>
 

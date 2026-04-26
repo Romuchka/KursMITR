@@ -30,11 +30,9 @@ namespace RepairShopIS.Views
             var phone = PhoneText.Text.Trim();
             var specialty = SpecialtyText.Text.Trim();
 
-            int age;
-            int experience;
-            if (!int.TryParse(AgeText.Text.Trim(), out age) || !int.TryParse(ExperienceText.Text.Trim(), out experience))
+            if (!HireDatePicker.SelectedDate.HasValue)
             {
-                MessageBox.Show("Возраст и стаж должны быть числами");
+                MessageBox.Show("Выберите дату трудоустройства");
                 return;
             }
 
@@ -62,7 +60,7 @@ namespace RepairShopIS.Views
                 return;
             }
 
-            var employee = new Employee(fullName, age, address, phone, specialty, experience);
+            var employee = new Employee(fullName, address, phone, specialty, HireDatePicker.SelectedDate.Value);
             _system.AddEmployee(employee);
             RefreshEmployeesGrid();
             ClearInputs();
@@ -84,11 +82,10 @@ namespace RepairShopIS.Views
         private void ClearInputs()
         {
             FullNameText.Text = "";
-            AgeText.Text = "";
             AddressText.Text = "";
             PhoneText.Text = "";
             SpecialtyText.Text = "";
-            ExperienceText.Text = "";
+            HireDatePicker.SelectedDate = null;
         }
     }
 }

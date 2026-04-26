@@ -10,8 +10,8 @@
                 <ComboBox x:Name="ClientCombo" DisplayMemberPath="FullName"/>
                 <Label Content="Сотрудник:"/>
                 <ComboBox x:Name="EmployeeCombo" DisplayMemberPath="FullName"/>
-                <Label Content="Телевизор:"/>
-                <ComboBox x:Name="TelevisionCombo" DisplayMemberPath="Brand"/>
+                <Label Content="Техника:"/>
+                <ComboBox x:Name="TelevisionCombo"/>
                 <Label Content="Дата приема:"/>
                 <DatePicker x:Name="ReceiptDatePicker"/>
                 <Label Content="Устраненные неисправности (по строкам):"/>

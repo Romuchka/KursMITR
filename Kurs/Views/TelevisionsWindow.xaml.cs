@@ -14,6 +14,14 @@ namespace RepairShopIS.Views
         {
             InitializeComponent();
             _system = system;
+            EquipmentTypeCombo.ItemsSource = new[]
+            {
+                "Телевизор",
+                "Ноутбук",
+                "Холодильник",
+                "Стиральная машина"
+            };
+            EquipmentTypeCombo.SelectedIndex = 0;
             RefreshTelevisionsGrid();
         }
 
@@ -25,6 +33,7 @@ namespace RepairShopIS.Views
 
         private void AddTelevision_Click(object sender, RoutedEventArgs e)
         {
+            var equipmentType = EquipmentTypeCombo.SelectedItem as string;
             var brand = BrandText.Text.Trim();
             var country = CountryText.Text.Trim();
             var manufacturer = ManufacturerText.Text.Trim();
@@ -37,7 +46,7 @@ namespace RepairShopIS.Views
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(brand) || string.IsNullOrWhiteSpace(country) || string.IsNullOrWhiteSpace(manufacturer))
+            if (string.IsNullOrWhiteSpace(equipmentType) || string.IsNullOrWhiteSpace(brand) || string.IsNullOrWhiteSpace(country) || string.IsNullOrWhiteSpace(manufacturer))
             {
                 MessageBox.Show("Заполните обязательные поля");
                 return;
@@ -49,7 +58,7 @@ namespace RepairShopIS.Views
                 return;
             }
 
-            var tv = new Television(brand, country, manufacturer, photoLink, usageYears);
+            var tv = new Television(equipmentType, brand, country, manufacturer, photoLink, usageYears);
             _system.AddTelevision(tv);
             RefreshTelevisionsGrid();
             ClearInputs();
@@ -70,6 +79,7 @@ namespace RepairShopIS.Views
 
         private void ClearInputs()
         {
+            EquipmentTypeCombo.SelectedIndex = 0;
             BrandText.Text = "";
             CountryText.Text = "";
             ManufacturerText.Text = "";
