@@ -6,9 +6,10 @@ namespace RepairShopIS.Models
 {
     public class Order : IOrder
     {
-        public IClient Client { get; set; }
-        public IEmployee Executor { get; set; }
-        public ITelevision Television { get; set; }
+        // Concrete properties are used by JSON serializer.
+        public Client Client { get; set; }
+        public Employee Executor { get; set; }
+        public Television Television { get; set; }
         public DateTime ReceiptDate { get; set; }
         public DateTime? IssueDate { get; set; }
         public List<string> FixedIssues { get; set; }
@@ -16,18 +17,41 @@ namespace RepairShopIS.Models
         public int WarrantyMonths { get; set; }
         public bool IsFaulty { get; set; }
 
+        IClient IOrder.Client
+        {
+            get { return Client; }
+            set { Client = value as Client; }
+        }
+
+        IEmployee IOrder.Executor
+        {
+            get { return Executor; }
+            set { Executor = value as Employee; }
+        }
+
+        ITelevision IOrder.Television
+        {
+            get { return Television; }
+            set { Television = value as Television; }
+        }
+
         public bool IsCompleted
         {
             get { return IssueDate.HasValue; }
+        }
+
+        public Order()
+        {
+            FixedIssues = new List<string>();
         }
 
         public Order(IClient client, IEmployee executor, ITelevision television,
                      DateTime receiptDate, IEnumerable<string> fixedIssues,
                      decimal cost, int warrantyMonths)
         {
-            Client = client;
-            Executor = executor;
-            Television = television;
+            Client = client as Client ?? throw new ArgumentException("Client must be of type Client", nameof(client));
+            Executor = executor as Employee ?? throw new ArgumentException("Executor must be of type Employee", nameof(executor));
+            Television = television as Television ?? throw new ArgumentException("Television must be of type Television", nameof(television));
             ReceiptDate = receiptDate;
             FixedIssues = new List<string>(fixedIssues ?? new string[0]);
             Cost = cost;
@@ -41,8 +65,8 @@ namespace RepairShopIS.Models
             IssueDate = issueDate;
             IsFaulty = isFaulty;
 
-            ((Employee)Executor).RepairedTVs++;  // Кастинг, так как internal set
-            if (isFaulty) ((Employee)Executor).FaultyRepairs++;
+            Executor.RepairedTVs++;
+            if (isFaulty) Executor.FaultyRepairs++;
         }
 
         public override string ToString()
